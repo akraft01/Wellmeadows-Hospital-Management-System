@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  postgres-db:
+    image: postgres:14
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DB: HMSPMS
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mehdi
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  hms-pms-system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hms-pms-system-app:latest
+    environment:
+      POSTGRES_HOST: postgres-db
+      POSTGRES_DB: HMSPMS # Firebase name
+      POSTGRES_USER: postgres # Firebase user name
+      POSTGRES_PASSWORD: mehdi # Firebase password
+    networks:
+      - db-network
+    ports:
+      - "4545:4545"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+
+networks:
+  db-network: {}
+
+volumes:
+  postgresdata: {}
