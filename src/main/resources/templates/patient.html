@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+  <h2 class="mb-2" th:text="'Consulter le dossier patient pour ' + ${patient.firstName} + ' ' + ${patient.lastName}"></h2>
+
+  <div class="d-flex gap-2 my-3">
+    <a th:href="@{/patients/prescribe/{id}(id=${patient.id})}">
+      <button class="btn btn-primary btn-sm">
+        Prescrire des médicaments
+      </button>
+    </a>
+    <a th:href="@{/patients/edit/{id}(id=${patient.id})}">
+      <button class="btn btn-primary btn-sm">
+        Modifier les informations sur le patient
+      </button>
+    </a>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Dossier du patient</h6>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">ID</strong>
+        </div>
+        <span class="d-block" th:text="${patient.id}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Nom et prénom</strong>
+        </div>
+        <span class="d-block" th:text="${patient.firstName} + ' ' + ${patient.lastName}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Numéro NAS</strong>
+        </div>
+        <span class="d-block" th:text="${patient.sinNumber}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Adresse</strong>
+        </div>
+        <span class="d-block" th:text="${patient.address}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Numéro de téléphone</strong>
+        </div>
+        <span class="d-block" th:text="${patient.phoneNumber}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Date de naissance</strong>
+        </div>
+        <span class="d-block" th:text="${patient.dateOfBirth}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Genre</strong>
+        </div>
+        <span class="d-block" th:text="${patient.gender}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">État civil</strong>
+        </div>
+        <span class="d-block" th:text="${patient.maritalStatus}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Docteur</strong>
+        </div>
+        <span class="d-block" th:text="${patient.doctor}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Next of Kin's Nom</strong>
+        </div>
+        <span class="d-block" th:text="${patient.patientNextToKin.nextToKinFullName}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Next of Kin's Relation</strong>
+        </div>
+        <span class="d-block" th:text="${patient.patientNextToKin.nextToKinRelationshipToPatient}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Next of Kin's Adresse</strong>
+        </div>
+        <span class="d-block" th:text="${patient.patientNextToKin.nextToKinAddress}"></span>
+      </div>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <strong class="text-gray-dark">Next of Kin's Numéro de téléphone</strong>
+        </div>
+        <span class="d-block" th:text="${patient.patientNextToKin.nextToKinPhoneNumber}"></span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

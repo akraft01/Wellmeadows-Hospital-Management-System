@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <h2 class="mb-2" th:text="${division.divisionName}"></h2>
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">Informations sur les divisions</h6>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">ID</strong>
+                </div>
+                <span class="d-block" th:text="${division.id}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Identificateur de division</strong>
+                </div>
+                <span class="d-block" th:text="${division.divisionIdentifier}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Nom de la division</strong>
+                </div>
+                <span class="d-block" th:text="${division.divisionName}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Emplacement</strong>
+                </div>
+                <span class="d-block" th:text="${division.location}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Nombre total de lits</strong>
+                </div>
+                <span class="d-block" th:text="${division.totalBeds}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Charge Nurse Nom</strong>
+                </div>
+                <span class="d-block" > Nurse 1 </span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Charge Nurse Telephone Extension</strong>
+                </div>
+                <span class="d-block" > 1234 </span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Charge Nurse Beeper Extension</strong>
+                </div>
+                <span class="d-block" > 5678 </span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Telephone Extension Nombre</strong>
+                </div>
+                <span class="d-block" th:text="${division.phoneExtensionNumber}"></span>
+            </div>
+        </div>
+        <div class="d-flex text-body-secondary pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Statut de division</strong>
+                </div>
+                <span class="d-block">
+                    <span th:if="${division.isComplete()}">Complet</span>
+                    <span th:if="${!division.isComplete()}">Incomplet</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

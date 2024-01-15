@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <script>
+        // Check if the URL contains the 'error' parameter on page load
+        window.onload = function() {
+            if (window.location.search.includes('error')) {
+                // If 'error' parameter exists, remove it from the URL
+                history.replaceState({}, document.title, window.location.pathname);
+            }
+        };
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="mb-2">Liste de Divisions</h1>
+
+    <form th:action="@{/divisions}" method="post">
+        <label for="divisionIdentifier" class="form-label">Entrez l'identifiant de la division:</label>
+        <input type="text" class="form-control mb-2" id="divisionIdentifier" name="divisionIdentifier" required>
+        <button type="submit" class="btn btn-primary btn-lg btn-outline-dark">Visualiser</button>
+    </form>
+    <div th:if="${param.error != null}" class="text-danger">
+        Division identifier not found! The division identifier should start with "DIV-" followed by a number.
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Division Identifiant</th>
+                <th scope="col">Division Nom</th>
+                <th scope="col">Visualiser</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="division : ${divisions}">
+                <td th:text="${division.id}"></td>
+                <td th:text="${division.divisionIdentifier}"></td>
+                <td th:text="${division.divisionName}"></td>
+                <td>
+                    <a th:href="@{/divisions/{id}(id=${division.id})}">
+                        <button class="btn btn-primary btn-lg btn-outline-dark">
+                            Visualiser Division
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

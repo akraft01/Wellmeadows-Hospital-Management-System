@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+  <div th:switch="${unauthorized}">
+    <div th:case="true" class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+      <span>You are not allowed to see this page! You have been redirected to your dashboard. If this is an error, please contact the IT Team.</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Applications</h6>
+    <div class="d-flex flex-column align-items-center">
+      <!-- Première application -->
+      <div class="mb-3">
+        <img src="https://i.pinimg.com/474x/48/91/25/48912558b8e8d65b4112c2e72c420948.jpg" alt="Divisions" class="img-fluid">
+        <a href="/divisions" class="btn btn-primary w-100 mt-2">Voir divisions</a>
+      </div>
+
+      <!-- Deuxième application -->
+      <div class="mb-3">
+        <img src="https://cdn-icons-png.flaticon.com/256/3126/3126647.png" alt="Patients" class="img-fluid">
+        <a href="/patients" class="btn btn-primary w-100 mt-2">Voir patients</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

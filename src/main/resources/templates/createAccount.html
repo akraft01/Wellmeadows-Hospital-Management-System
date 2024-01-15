@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content" class="col-lg-8 mx-auto p-4">
+    <div th:switch="${createAccountStatus}">
+        <div th:case="ok" class="alert alert-info alert-dismissible fade show" role="alert">
+            <span>The account has been successfully created!</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+
+        <div th:case="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>An error occurred while creating your account, please try again later...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+
+        <div th:case="exists" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>An error occurred while registering your account, the account already exists...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+
+        <div th:case="not_allowed" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>An error occurred while registering your account, please make sure you are allowed to create an account...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+    <form action="/register" method="post" th:object="${accountData}">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <label for="firstName" class="form-label">First name</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="" required="">
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="employeeNumber" class="form-label">Employee Number</label>
+                <input type="text" class="form-control" id="employeeNumber" th:field="*{employeeNumber}" placeholder="" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="" required="">
+            </div>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

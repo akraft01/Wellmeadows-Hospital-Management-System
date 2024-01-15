@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <h1 class="mb-2" th:text="'Prescrire des médicaments à' + ${patient.firstName} + ' ' + ${patient.lastName}"></h1>
+    <div th:switch="${prescribePatientStatus}">
+        <div th:case="ok" class="alert alert-info alert-dismissible fade show my-2" role="alert">
+            <span>L'ordonnance a été enregistrée avec succès!</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+
+        <div th:case="error" class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+            <span>An error occurred while registering the prescription, please try again later...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+    <form th:action="@{/patients/prescribe/{id}(id=${id})}" method="post" th:object="${prescribePatientForm}">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="drugNumber" class="form-label">Numéro de médicament</label>
+                <input type="text" class="form-control" id="drugNumber" th:field="*{drugNumber}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="drugName" class="form-label">Nom du médicament</label>
+                <input type="text" class="form-control" id="drugName" th:field="*{drugName}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="unitsPerDay" class="form-label">Unités par jour</label>
+                <input type="number" class="form-control" id="unitsPerDay" th:field="*{unitsPerDay}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="numberOfAdministrationPerDay" class="form-label">Nombre d'administrations par jour</label>
+                <input type="number" class="form-control" id="numberOfAdministrationPerDay"
+                       th:field="*{numberOfAdministrationPerDay}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="methodOfAdministration" class="form-label">Mode d'administration</label>
+                <input type="text" class="form-control" id="methodOfAdministration" th:field="*{methodOfAdministration}"
+                       required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="startDate" class="form-label">Date de début</label>
+                <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="endDate" class="form-label">Date de fin</label>
+                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" required="">
+            </div>
+        </div>
+        <div id="administrationTimesContainer">
+            <div th:each="administrationTime, iterStat : *{administrationTimes}">
+                <div class="row mb-2" th:id="${'administrationTime-' + iterStat.index}">
+                    <div class="col-sm-5">
+                        <label th:for="${'timeOfDay' + iterStat.index}" class="form-label">Moment de la journée</label>
+                        <input type="time" class="form-control" th:id="${'timeOfDay' + iterStat.index}"
+                               th:field="*{administrationTimes[__${iterStat.index}__].timeOfDay}" required="">
+                    </div>
+                    <div class="col-sm-5">
+                        <label th:for="${'units' + iterStat.index}" class="form-label">Unités</label>
+                        <input type="number" class="form-control" th:id="${'units' + iterStat.index}"
+                               th:field="*{administrationTimes[__${iterStat.index}__].units}" required="">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-danger" style="margin-top: 2rem" onclick="deleteAdministrationTime(${index})">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+          <button type="button" id="addAdministrationTime" class="btn btn-secondary">Add Administration Time</button>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+    </form>
+    <script>
+        document.getElementById('addAdministrationTime').addEventListener('click', function () {
+            const administrationTimesContainer = document.getElementById('administrationTimesContainer');
+            const index = administrationTimesContainer.children.length;
+
+            const newAdministrationTime = document.createElement('div');
+            newAdministrationTime.innerHTML = `
+    <div class="row mb-2" id="administrationTime-${index}">
+      <div class="col-sm-5">
+        <label for="timeOfDay${index}" class="form-label">Time of Day</label>
+        <input type="time" class="form-control" id="timeOfDay${index}" name="administrationTimes[${index}].timeOfDay" required="">
+      </div>
+      <div class="col-sm-5">
+        <label for="units${index}" class="form-label">Units</label>
+        <input type="number" class="form-control" id="units${index}" name="administrationTimes[${index}].units" required="">
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-danger" style="margin-top: 2rem" onclick="deleteAdministrationTime(${index})">Delete</button>
+      </div>
+    </div>
+  `;
+
+            administrationTimesContainer.appendChild(newAdministrationTime);
+        });
+
+        const deleteAdministrationTime = (index) => {
+            const administrationTime = document.getElementById('administrationTime-' + index);
+            administrationTime.parentNode.removeChild(administrationTime);
+        }
+    </script>
+</div>
+</body>
+</html>

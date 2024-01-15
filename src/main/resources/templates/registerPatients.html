@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <div th:switch="${registerPatientsStatus}">
+        <div th:case="ok" class="alert alert-info alert-dismissible fade show" role="alert">
+            <span>The patient has been successfully registered!</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+
+        <div th:case="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>An error occurred while registering the patient, please try again later...</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+    <form action="/patients/register" method="post" th:object="${registerPatientsForm}">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="sinNumber" class="form-label">Numéro NAS</label>
+                <input type="number" class="form-control" id="sinNumber" th:field="*{sinNumber}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <label for="firstName" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="" required="">
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Nom de famille</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="address" class="form-label">Adresse</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="phoneNumber" class="form-label">Numéro de téléphone</label>
+                <input type="tel" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="dateOfBirth" class="form-label">Date de naissance</label>
+                <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="gender" class="form-label">Genre</label>
+                <select class="form-control" id="gender" th:field="*{gender}" required="">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-Binary">Non-Binary</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="maritalStatus" class="form-label">État civil</label>
+                <select class="form-control" id="maritalStatus" th:field="*{maritalStatus}" required="">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Divorced">Divorced</option>
+                    <option value="Widowed">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="doctor" class="form-label">Docteur</label>
+                <input type="text" class="form-control" id="doctor" th:field="*{doctor}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="nextToKinFullName" class="form-label">Patient's Next To Kin – Nom complet</label>
+                <input type="text" class="form-control" id="nextToKinFullName" th:field="*{nextToKinFullName}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="nextToKinRelationshipToPatient" class="form-label">Patient's Next To Kin - Relation</label>
+                <input type="text" class="form-control" id="nextToKinRelationshipToPatient" th:field="*{nextToKinRelationshipToPatient}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="nextToKinAddress" class="form-label">Patient's Next To Kin - Adresse</label>
+                <input type="text" class="form-control" id="nextToKinAddress" th:field="*{nextToKinAddress}" required="">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="nextToKinPhoneNumber" class="form-label">Patient's Next To Kin - Numéro de téléphone</label>
+                <input type="tel" class="form-control" id="nextToKinPhoneNumber" th:field="*{nextToKinPhoneNumber}" required="">
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">
+                Soumettre
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

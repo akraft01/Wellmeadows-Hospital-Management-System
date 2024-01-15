@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="#{title.application}" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}" defer></script>
+    <style>
+        .btn-custom {
+            background-color: #ff4d4d; /* Couleur rouge pour les boutons */
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #cc0000; /* Couleur rouge plus foncée au survol */
+        }
+        h1, h2, h3, h4, h5, h6 { /* Sélecteurs pour tous les titres */
+            color: #ff4d4d; /* Couleur rouge pour les titres */
+        }
+    </style>
+</head>
+<body>
+<header class="bg-light">
+    <div th:replace="~{fragments/header :: header}">Header</div>
+</header>
+<div class="container">
+    <div layout:fragment="content" />
+</div>
+</body>
+</html>

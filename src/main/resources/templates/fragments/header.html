@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" >
+<html  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="SEG3502 - Group 9">
+    <style>
+        .navbar-custom {
+            background-color: #ff4d4d; /* Rouge pour la barre de navigation */
+            color: white;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: white;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #cc0000; /* Rouge plus foncé pour les liens au survol */
+        }
+    </style>
+</head>
+<body>
+
+<div class="header" th:fragment="header">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Systeme de gestion des patients</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex flex-wrap" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/account">Tableau de bord</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item" sec:authorize="isAuthenticated">
+                        <a class="nav-link" href="/logout">Se deconnecter</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated">
+                        <a class="nav-link" href="/login">Se connecter</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated">
+                        <a class="nav-link" href="/register">Creer un compte</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

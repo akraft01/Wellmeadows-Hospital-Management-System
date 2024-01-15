@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .popup-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="mb-2">Liste des Patients</h1>
+    <a th:href="@{/patients/register}">
+        <button class="btn btn-primary btn-sm">
+            Ajouter patient
+        </button>
+    </a>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Nom de famille</th>
+                <th scope="col">Consulter fichier du patient</th>
+                <th scope="col">Admettre patient </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patient : ${patients}">
+                <td th:text="${patient.id}"></td>
+                <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.lastName}"></td>
+                <td>
+                    <a th:href="@{/patients/{id}(id=${patient.id})}">
+                        <button class="btn btn-primary">
+                            Consulter fichier
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-primary admissionRequestBtn" data-patient-id="${patient.id}">
+                        Demande d'admission
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Popup d'admission -->
+    <div id="admissionPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <form id="admissionForm">
+                <label for="rationale">Justification de la demande:</label><br>
+                <input type="text" id="rationale" name="Justification"><br>
+                <label for="priority">Évaluation de priorité (1-10):</label><br>
+                <input type="number" id="priority" name="priorité" min="1" max="10"><br>
+                <label for="localDoctorAdmission">Docteur locale:</label><br>
+                <input type="text" id="localDoctorAdmission" name="AdmissionDocteurLocal"><br>
+                <button type="submit">Soumettre</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Popup d'acceptation -->
+    <div id="acceptancePopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <form id="acceptanceForm">
+                <label for="localDoctorAcceptance">Docteur locale:</label><br>
+                <input type="text" id="localDoctorAcceptance" name="AcceptanceDocteurLocal"><br>
+                <label for="roomNumber">Numéro de chambre:</label><br>
+                <input type="text" id="roomNumber" name="roomNumber"><br>
+                <label for="bedNumber">Numéro de lit:</label><br>
+                <input type="text" id="bedNumber" name="bedNumber"><br>
+                <label for="insuranceNumber">Numéro d'assurance privée facultatif:</label><br>
+                <input type="text" id="insuranceNumber" name="insuranceNumber"><br>
+                <input type="hidden" id="patientIdInput" name="patientId">
+                <button type="submit">Soumettre</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="rejectPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <form id="rejectForm">
+                <button type="submit">Confirmer</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var admissionPopup = document.getElementById('admissionPopup');
+        var admissionForm = document.getElementById('admissionForm');
+        var lastClickedAdmissionBtn;
+
+        // Event delegation for Admission Request buttons
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('admissionRequestBtn')) {
+                admissionPopup.style.display = "block";
+                lastClickedAdmissionBtn = event.target;
+            }
+        });
+
+        // Close popup and handle form submission
+        admissionForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            admissionPopup.style.display = "none";
+
+            var btnContainer = lastClickedAdmissionBtn.parentElement;
+            btnContainer.innerHTML = `<button class="btn btn-success" onclick="acceptAdmission('${lastClickedAdmissionBtn.getAttribute('data-patient-id')}')">Accepter</button>
+                                <button class="btn btn-danger" onclick="rejectAdmission('${lastClickedAdmissionBtn.getAttribute('data-patient-id')}')">Rejecter</button>`;
+        });
+
+        // Functions to handle accept/reject
+        function acceptAdmission(patientId) {
+            document.getElementById('patientIdInput').value = patientId;
+            document.getElementById('acceptancePopup').style.display = "block";
+        }
+
+        function rejectAdmission(patientId) {
+            console.log("Rejected for patient ID:", patientId);
+            document.getElementById('rejectPopup').style.display = "block";
+        }
+
+        // Close the popup if the close button (x) is clicked
+        document.querySelectorAll('.close').forEach(function(closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                this.closest('.popup').style.display = "none";
+            });
+        });
+
+        // Event listener for the acceptance form submission
+        document.getElementById('acceptanceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('acceptancePopup').style.display = "none";
+
+            var patientId = document.getElementById('patientIdInput').value;
+            var admissionRequestBtn = document.querySelector(`button.admissionRequestBtn[data-patient-id="${patientId}"]`);
+            if (admissionRequestBtn) {
+                var btnContainer = admissionRequestBtn.parentElement;
+                btnContainer.innerHTML = `<button class="btn btn-secondary" data-patient-id="${patientId}">
+                                    Discharged
+                                  </button>`;
+            } else {
+                console.error("Button for patient ID not found:", patientId);
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
